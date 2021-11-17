@@ -2,27 +2,27 @@ import pandas as pd
 import requests
 from sqlalchemy import create_engine
 from app.queries import *
-from secrets import secrets
+from app.config.settings import settings
 
 def get_token(code):
     params = {
         'code': code,
         'grant_type': 'authorization_code',
-        'client_id': secrets['CLIENT_ID'],
-        'client_secret': secrets['CLIENT_SECRET'],
-        'redirect_uri': secrets['REDIRECT_URI']
+        'client_id': settings['CLIENT_ID'],
+        'client_secret': settings['CLIENT_SECRET'],
+        'redirect_uri': settings['REDIRECT_URI']
     }
     url = f'https://login.salesforce.com/services/oauth2/token'
     try:
         response = requests.post(url, params=params)
         access_token = response.json().get('access_token')
-        headers = {"Authorization": "Bearer " + access_token, "Pardot-Business-Unit-Id": secrets['BUSINESS_UNIT_ID']}
+        headers = {"Authorization": "Bearer " + access_token, "Pardot-Business-Unit-Id": settings['BUSINESS_UNIT_ID']}
         return headers
     except:
         return None
 
 def update_pardot_db(headers):
-    engine = create_engine(secrets['PARDOT_DB'])
+    engine = create_engine(settings['PARDOT_DB'])
     df = pd.read_sql_query('select max(updated_at) from "PardotProspect"', engine)
     max_date = df['max'].max().strftime('%c')
     field = 'Prospect'

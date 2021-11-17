@@ -1,10 +1,10 @@
 import pandas as pd
 from sqlalchemy import create_engine
 from app.queries import *
-from secrets import secrets
+from app.config.settings import settings
 
 def get_skillstreet_filters():
-    engine = create_engine(secrets['SKILLSTREET_PROD'])
+    engine = create_engine(settings['SKILLSTREET_PROD'])
     df_s = pd.read_sql_query(skill_filter_query, engine)
     df_c = pd.read_sql_query(country_filter_query, engine)
     engine.dispose()
@@ -14,7 +14,7 @@ def get_skillstreet_filters():
     }
 
 def get_datastar_fileters():
-    engine = create_engine(secrets['DATASTAR_DB'], connect_args={'options': '-csearch_path={}'.format('cohort1to3')})
+    engine = create_engine(settings['DATASTAR_DB'], connect_args={'options': '-csearch_path={}'.format('cohort1to3')})
     df_app = pd.read_sql_query(datastar_applicant_filter_query, engine)
     df_alm = pd.read_sql_query(datastar_alumni_filter_query, engine)
     df_jh = pd.read_sql_query(datastar_job_filter_query, engine)
@@ -32,7 +32,7 @@ def get_datastar_fileters():
 
 def filter_result(form):
     # Get pardot data
-    engine = create_engine(secrets['PARDOT_DB'])
+    engine = create_engine(settings['PARDOT_DB'])
     df_p = pd.read_sql_query(pardot_query, engine)
     engine.dispose()
 
@@ -69,7 +69,7 @@ def filter_result(form):
         where_query += " and jsp.country_id in ({})".format(','.join(country_ids))
 
     # Get skillstreet data
-    engine = create_engine(secrets['SKILLSTREET_PROD'])
+    engine = create_engine(settings['SKILLSTREET_PROD'])
     df_s = pd.read_sql_query(skillstreet_query.format(select_query, join_query) + where_query, engine)
     engine.dispose()
     if len(skill_ids) > 0:

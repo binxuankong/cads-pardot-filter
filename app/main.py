@@ -1,32 +1,28 @@
 import os
-from flask import Flask, redirect, session, request, Response
+from flask import Flask, redirect, url_for, session, request, Response
 from app.page import generate_page
 from app.update import get_token, update_pardot_db
 from app.filter import get_skillstreet_filters, get_datastar_fileters, process_form, filter_result
-from secrets import secrets
+from app.config.settings import settings
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    session['code'] = 'dev'
     user = session.get('code', None)
     if request.method == 'POST':
         session['query'] = request.form
-        print(request.form)
-        print(process_form(request.form))
-        return redirect('/')
-        # return redirect(url_for('result', q=process_form(request.form)))
+        return redirect(url_for('result', q=process_form(request.form)))
     skillstreet_filters = get_skillstreet_filters()
     datastar_filters = get_datastar_fileters()
     return generate_page('index.html', user=user, s_filters=skillstreet_filters, d_filters=datastar_filters)
 
 @app.route('/login')
 def login():
-    auth_url = secrets['AUTH_URL']
-    client_id = secrets['CLIENT_ID']
-    redirect_uri = secrets['REDIRECT_URI']
+    auth_url = settings['AUTH_URL']
+    client_id = settings['CLIENT_ID']
+    redirect_uri = settings['REDIRECT_URI']
     auth_url += f'response_type=code&client_id={client_id}&redirect_uri={redirect_uri}'
     return redirect(auth_url)
 
