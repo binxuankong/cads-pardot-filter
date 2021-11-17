@@ -1,0 +1,53 @@
+div #loading {
+    width: 64px;
+    height: 64px;
+    display: none;
+    background: url(/static/loader.gif) no-repeat;
+    cursor: wait;
+}
+
+div .form {
+    overflow: hidden;
+    width: 100%;
+    border: 1px solid black;
+    margin: 2 auto;
+    padding: 8px;
+}
+
+div .skillstreet {
+    float: left;
+    width: 33%;
+}
+
+div .datastar {
+    float: left;
+    width: 25%;
+}
+
+h5 {
+    font-size: 1.1em;
+}
+
+div .skillstreet .filters {
+    overflow-y: scroll;
+    max-height: 360px;
+    margin: 2px;
+}
+
+div .datastar .filters {
+    overflow-y: scroll;
+    max-height: 240px;
+    margin: 2px;
+}
+
+div #submit {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+div #submit input {
+    margin-top: 0.5em;
+    margin-left: 1em;
+    margin-right: 1em;
+}

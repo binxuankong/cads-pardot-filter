@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}?u={{ last_updated }}">
+{% endblock %}
+
+{% block content %}
+    <h1>{% block title %}Pardot Email Filter{% endblock %}</h1>
+
+    {% if user %}
+        <div id="loading"></div>
+        <div id="content">
+            <form method="post">
+                <div class="form">
+                    <h4><u>Rubiqe/Acceltic</u></h4>
+                    <div class="skillstreet">
+                        <h5>Basic</h5>
+                        <div class="filters">
+                            <input type="checkbox" name="bool_info" value="info"> Has Skillstreet Info <br>
+                            <input type="checkbox" name="bool_rubiqe" value="rubiqe"> Has Rubiqe Account <br>
+                            <input type="checkbox" name="bool_acceltic" value="acceltic"> Has Acceltic Account <br>
+                            <input type="checkbox" name="bool_smart_skills" value="smart_skills"> Has Completed Smart Skills <br>
+                            <input type="checkbox" name="bool_not_cads" value="not_cads"> Not CADS <br>
+                            <input type="checkbox" name="bool_studying" value="studying"> Is Studying <br>
+                            <input type="checkbox" name="bool_employed" value="employed"> Is Employed <br>
+                        </div>
+                    </div>
+                    <div class="skillstreet">
+                        <h5>Skill</h5>
+                        <input type="radio" name="all_skill" value="true" checked="checked">All</input>
+                        <input type="radio" name="all_skill" value="false" style="margin-left: 1em;">Any</input><br>
+                        <div class="filters">
+                            {% for f in s_filters['skill'] %}
+                                <input type="checkbox" name="skill_{{ f.name }}" value="{{ f.id }}"> {{ f.name }} <br>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="skillstreet">
+                        <h5>Country</h5>
+                        <div class="filters">
+                            {% for f in s_filters['country'] %}
+                                <input type="checkbox" name="country_{{ f.name }}" value="{{ f.id }}"> {{ f.name }} <br>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="form">
+                    <h4><u>Data Star</u></h4>
+                    <div class="datastar">
+                        <div class="filters">
+                            <label for="age">Age</label>
+                            <select id="age" name="min_applicant_age">
+                                <option value="none"></option>
+                                {% for f in d_filters['age'] %}
+                                    <option value={{ f }}>{{ f }}</option>
+                                {% endfor %}
+                            </select> - 
+                            <select id="age" name="max_applicant_age">
+                                <option value="none"></option>
+                                {% for f in d_filters['age'] %}
+                                    <option value={{ f }}>{{ f }}</option>
+                                {% endfor %}
+                            </select><br>
+                            <input type="checkbox" name="is_applicant" value="applicant"> Is Applicant <br>
+                            <input type="checkbox" name="where_applicant_bumiputera" value="bumiputera"> Is Bumiputera <br>
+                            <input type="checkbox" name="applicant_preassessment" value="preassessment"> Done Pre-Assessment <br>
+                            <input type="checkbox" name="where_applicant_interview" value="interview"> Attended Interview <br>
+                            <input type="checkbox" name="where_applicant_recommended" value="interview_recommended"> Recommended by Interviewer <br>
+                            <input type="checkbox" name="is_alumni" value="alumni"> Is Alumni <br>
+                            <input type="checkbox" name="where_alumni_employed" value="currently_employed"> Is Employed <br>
+                        </div>
+                    </div>
+                    <div class="datastar">
+                        <h5>Sponsor</h5>
+                        <div class="filters">
+                            {% for f in d_filters['sponsor'] %}
+                                <input type="checkbox" name="sponsor_{{ f }}" value="{{ f }}"> {{ f }} <br>
+                            {% endfor %}
+                        </div><br>
+                        <h5>Path</h5>
+                        <div class="filters">
+                            {% for f in d_filters['path'] %}
+                                <input type="checkbox" name="path_{{ f }}" value="{{ f }}"> {{ f }} <br>
+                            {% endfor %}
+                        </div><br>
+                        <h5>Gender</h5>
+                        <div class="filters">
+                            {% for f in d_filters['gender'] %}
+                                <input type="checkbox" name="gender_{{ f }}" value="{{ f }}"> {{ f }} <br>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="datastar">
+                        <h5>Cohort</h5>
+                        <div class="filters">
+                            {% for f in d_filters['cohort'] %}
+                                <input type="checkbox" name="cohort_{{ f }}" value="{{ f }}"> {{ f }} <br>
+                            {% endfor %}
+                        </div><br>
+                        <h5>Year</h5>
+                        <div class="filters">
+                            {% for f in d_filters['year'] %}
+                                <input type="checkbox" name="year_{{ f }}" value="{{ f }}"> {{ f }} <br>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="datastar">
+                        <h5>Company</h5>
+                        <div class="filters">
+                            {% for f in d_filters['company'] %}
+                                <input type="checkbox" name="company_{{ f }}" value="{{ f }}"> {{ f }} <br>
+                            {% endfor %}
+                        </div><br>
+                        <h5>Salary</h5>
+                        <div class="filters">
+                            {% for f in d_filters['salary'] %}
+                                <input type="checkbox" name="salary_{{ f }}" value="{{ f }}"> {{ f }} <br>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div id="submit">
+                    <input type="submit" class="btn btn-primary" onclick="loading();"></input>
+                    <input type="reset" class="btn btn-primary"></input>
+                </div>
+            </form>
+        </div>
+    {% else %}
+        <div>
+            Login with your Salesforce account to get access.
+        </div>
+        <a type="button" class="btn btn-primary" href="/login">Login</a>
+    {% endif %}
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript">// <![CDATA[
+        function loading(){
+            $("#loading").show();
+            $("#content").hide();       
+        }
+    // ]]></script>
+{% endblock %}

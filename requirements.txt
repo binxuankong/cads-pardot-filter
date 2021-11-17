@@ -1,0 +1,6 @@
+flask
+flask_session
+pandas
+SQLAlchemy
+psycopg2-binary
+requests_oauthlib

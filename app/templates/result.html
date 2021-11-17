@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/result.css') }}?u={{ last_updated }}">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+<link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.css">  
+<link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.16.0/extensions/filter-control/bootstrap-table-filter-control.css">
+{% endblock %}
+
+{% block content %}
+<h3>{% block title %}Result{% endblock %}</h3><div class="container">
+<a type="button" class="btn btn-primary" href="{{ url_for('download', q=query) }}">Download</a>
+<table id="table"
+    data-toggle="table"
+    data-filter-control="true"
+    data-show-search-clear-button="true"
+    data-sortable="true"
+    classes="table-sm"
+    data-pagination="true"
+    data-show-columns="true"
+    data-show-columns-toggle-all="true"
+    class="table-responsive">
+    <thead>
+        <tr>
+            <!--special characters and spaces not allowed in data-field name-->
+            <th data-field="columnA" data-filter-control="input" data-sortable="true">ID</th>
+            <th data-field="columnB" data-filter-control="input" data-sortable="true">Name</th>
+            <th data-field="columnC" data-filter-control="input" data-sortable="true">Email</th>
+            <th data-field="columnD" data-filter-control="input" data-sortable="true">Company</th>
+            <th data-field="columnE" data-filter-control="input" data-sortable="true">Job Title</th>
+            <th data-field="columnF" data-filter-control="select" data-sortable="true">Opted Out</th>
+            <th data-field="columnG" data-filter-control="input" data-sortable="true">Last Updated</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in data %}
+        <tr>
+            <td>{{ row.id }}</td>
+            <td>{{ row.name }}</td>
+            <td>{{ row.email }}</td>
+            <td>{{ row.company }}</td>
+            <td>{{ row.job_title }}</td>
+            <td>{{ row.opted_out }}</td>
+            <td>{{ row.updated_at }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+
+{% block script %}
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.js"></script>
+<script src="https://unpkg.com/bootstrap-table@1.16.0/dist/extensions/filter-control/bootstrap-table-filter-control.min.js"></script>
+{% endblock %}
