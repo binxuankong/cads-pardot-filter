@@ -42,6 +42,8 @@ def update_pardot_db(headers):
             break
         all_res.extend(res.json()['result']['prospect'])
         i += 200
+    if len(all_res) == 0:
+        return False
     df = pd.DataFrame.from_dict(all_res)
     df = df.drop_duplicates(subset=['email'])
     df['created_at'] = pd.to_datetime(df['created_at'])
@@ -55,4 +57,4 @@ def update_pardot_db(headers):
     engine.execute(pardot_update_query)
     engine.execute(pardot_insert_query)
     engine.dispose()
-    return
+    return True

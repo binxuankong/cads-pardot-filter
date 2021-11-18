@@ -1,8 +1,9 @@
 import os
 from flask import Flask, redirect, url_for, session, request, Response
+from datetime import datetime as dt
 from app.page import generate_page
 from app.update import get_token, update_pardot_db
-from app.filter import get_skillstreet_filters, get_datastar_fileters, process_form, filter_result
+from app.filter import get_skillstreet_filters, get_datastar_filters, filter_result
 from app.config.settings import settings
 
 app = Flask(__name__)
@@ -13,9 +14,10 @@ def index():
     user = session.get('code', None)
     if request.method == 'POST':
         session['query'] = request.form
-        return redirect(url_for('result', q=process_form(request.form)))
+        query = dt.now().strftime('%Y%m%d%H%M%S') + '-' + str(user[:3]) + str(len(request.form))
+        return redirect(url_for('result', q=query))
     skillstreet_filters = get_skillstreet_filters()
-    datastar_filters = get_datastar_fileters()
+    datastar_filters = get_datastar_filters()
     return generate_page('index.html', user=user, s_filters=skillstreet_filters, d_filters=datastar_filters)
 
 @app.route('/login')
@@ -50,8 +52,11 @@ def update():
         print('Error getting auth token.')
         return redirect('/')
     try:
-        update_pardot_db(headers)
-        print('Successfully update Pardot DB.')
+        updated = update_pardot_db(headers)
+        if updated:
+            print('Successfully update Pardot DB.')
+        else:
+            print('No new Pardot data to update.')
         return redirect('/')
     except Exception as e:
         print('Error in updating Pardot DB:', e)

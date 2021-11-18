@@ -1,5 +1,5 @@
-from os import environ
-# from environ import environ
+# from os import environ
+from environ import environ
 
 settings = {
     'CLIENT_ID': environ['CLIENT_ID'],

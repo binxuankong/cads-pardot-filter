@@ -18,6 +18,11 @@ where_query_map = {
     'data_star': 'jsp.is_data_star',
     'studying': 'e.status and e.is_current',
     'employed': 'we.status and we.is_current',
+    'preassessment': "pa.id notnull",
+    'interview': """sa."Interviewed" = 'Y'""",
+    'interview_recommend': """sa."Remarks" ilike 'recommend%%'""",
+    'bumiputera': """a."Race" = 'Malay'""",
+    'currently_employed': """jh."EmploymentStatus" = 'True'""",
 }
 
 skill_filter_query = 'select id, "name" from skill where status order by "name"'
@@ -38,15 +43,30 @@ datastar_alumni_filter_query = 'select distinct "Sponsor", "Cohort", "Year", "DS
 datastar_job_filter_query = 'select distinct "CompanyName", "SalaryRange" from "JobHistory" where "CurrentJob"'
 
 pardot_query = """
-select id, concat_ws(' ', first_name, last_name) as name, email, company, job_title, opted_out, updated_at
+select id, first_name, last_name, email, company, job_title, opted_out, updated_at
 from "PardotProspect"
 """
 
 skillstreet_query = """
-select ud.user_id {}
+select ud.user_id as "email" {}
 from user_details ud
 join job_seeker_profile jsp on jsp.user_details_id = ud.id {}
 where jsp.status and ud.status and ud.activate
+"""
+
+datastar_applicant_query = """
+select a."Email" as "email"
+from "Applicants" a
+left join "PreAssessments" pa on pa."ApplicantId" = a."ApplicantId"
+left join "SelectionAssessments" sa on sa."ApplicantId" = a."ApplicantId"
+where a."Email" notnull
+"""
+
+datastar_alumni_query = """
+select dsa."EmailAddress" as "email"
+from "DataStarAlumni" dsa
+join "JobHistory" jh on jh."Id" = dsa."Id" 
+where dsa."EmailAddress" notnull
 """
 
 pardot_update_query = """
