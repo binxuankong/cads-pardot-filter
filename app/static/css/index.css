@@ -36,7 +36,7 @@ div .skillstreet .filters {
 
 div .datastar .filters {
     overflow-y: scroll;
-    max-height: 240px;
+    max-height: 360px;
     margin: 2px;
 }
 
@@ -50,4 +50,19 @@ div #submit input {
     margin-top: 0.5em;
     margin-left: 1em;
     margin-right: 1em;
+}
+
+input.keyword {
+    width: 80%;
+}
+
+ul.searchfilter {
+    list-style-type: none;
+    line-height: 1em;
+    padding: 0;
+    margin: 0;
+}
+
+h5.samecolumn {
+    margin-top:0.5em;
 }

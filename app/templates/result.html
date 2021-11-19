@@ -9,7 +9,8 @@
 {% endblock %}
 
 {% block content %}
-<h3>{% block title %}Result{% endblock %}</h3><div class="container">
+<h3>{% block title %}Result - {{ data|length }} prospects found{% endblock %}</h3>
+<div class="container">
 <a type="button" class="btn btn-primary" href="{{ url_for('download', q=query) }}">Download</a>
 <table id="table"
     data-toggle="table"
@@ -25,19 +26,21 @@
         <tr>
             <!--special characters and spaces not allowed in data-field name-->
             <th data-field="columnA" data-filter-control="input" data-sortable="true">ID</th>
-            <th data-field="columnB" data-filter-control="input" data-sortable="true">Name</th>
-            <th data-field="columnC" data-filter-control="input" data-sortable="true">Email</th>
-            <th data-field="columnD" data-filter-control="input" data-sortable="true">Company</th>
-            <th data-field="columnE" data-filter-control="input" data-sortable="true">Job Title</th>
-            <th data-field="columnF" data-filter-control="select" data-sortable="true">Opted Out</th>
-            <th data-field="columnG" data-filter-control="input" data-sortable="true">Last Updated</th>
+            <th data-field="columnB" data-filter-control="input" data-sortable="true">First Name</th>
+            <th data-field="columnC" data-filter-control="input" data-sortable="true">Last Name</th>
+            <th data-field="columnD" data-filter-control="input" data-sortable="true">Email</th>
+            <th data-field="columnE" data-filter-control="input" data-sortable="true">Company</th>
+            <th data-field="columnF" data-filter-control="input" data-sortable="true">Job Title</th>
+            <th data-field="columnG" data-filter-control="select" data-sortable="true">Opted Out</th>
+            <th data-field="columnH" data-filter-control="input" data-sortable="true">Last Updated</th>
         </tr>
     </thead>
     <tbody>
         {% for row in data %}
         <tr>
             <td>{{ row.id }}</td>
-            <td>{{ row.name }}</td>
+            <td>{{ row.first_name }}</td>
+            <td>{{ row.last_name }}</td>
             <td>{{ row.email }}</td>
             <td>{{ row.company }}</td>
             <td>{{ row.job_title }}</td>

@@ -1,7 +1,6 @@
 import os
 from flask import Flask, redirect, url_for, session, request, Response
-from datetime import datetime as dt
-from app.page import generate_page
+from app.page import generate_page, generate_query
 from app.update import get_token, update_pardot_db
 from app.filter import get_skillstreet_filters, get_datastar_filters, filter_result
 from app.config.settings import settings
@@ -11,10 +10,12 @@ app.secret_key = os.urandom(24)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
+    session['code'] = 'development'
     user = session.get('code', None)
     if request.method == 'POST':
         session['query'] = request.form
-        query = dt.now().strftime('%Y%m%d%H%M%S') + '-' + str(user[:3]) + str(len(request.form))
+        query = generate_query(user) + '-' + str(len(request.form))
+        # return redirect(url_for('result', q=process_form(request.form)))
         return redirect(url_for('result', q=query))
     skillstreet_filters = get_skillstreet_filters()
     datastar_filters = get_datastar_filters()
