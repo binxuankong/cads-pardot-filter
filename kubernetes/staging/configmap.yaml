@@ -1,0 +1,9 @@
+apiVersion: v1
+data:
+  URL: 'http://localhost:9876'
+  AUTH_URL: 'https://d6f000001gnqxuay.my.salesforce.com/services/oauth2/authorize?'
+  REDIRECT_URI: 'http://localhost:9876/callback'
+kind: ConfigMap
+metadata:
+  name: pardot-filter-staging
+  namespace: staging
