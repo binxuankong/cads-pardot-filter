@@ -31,13 +31,13 @@
   
     <body>
         <nav class="navbar navbar-custom navbar-expand-md">
-            <a class="navbar-brand" href="/">Home</a>
+            <a class="navbar-brand" href="{{ url_for('index') }}">Home</a>
             {% if user %}
-                <a class="navbar-brand" href="/logout">Logout</a>
-                <a class="navbar-brand" href="/update">Update</a>
+                <a class="navbar-brand" href="{{ url_for('logout') }}">Logout</a>
+                <a class="navbar-brand" href="{{ url_for('update') }}">Update</a>
             {% else %}
-                <a class="navbar-brand" href="/login">Login</a>
-                <a class="navbar-brand disabled" href="/update">Update</a>
+                <a class="navbar-brand" href="{{ url_for('login') }}">Login</a>
+                <a class="navbar-brand disabled" href="{{ url_for('update') }}">Update</a>
             {% endif %}
         </nav>
         <section id="main-content">
