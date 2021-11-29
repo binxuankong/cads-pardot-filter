@@ -13,7 +13,7 @@ base_route = '/pardot-filter'
 @app.route(base_route, methods=['GET', 'POST'])
 def index():
     user = session.get('code', None)
-    if request.method == 'POST':
+    if request.method == 'POST' and user is not None:
         session['query'] = request.form
         query = generate_query(user) + '-' + str(len(request.form))
         return redirect(url_for('result', q=query))
