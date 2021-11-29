@@ -10,12 +10,10 @@ app.secret_key = os.urandom(24)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    session['code'] = 'development'
     user = session.get('code', None)
     if request.method == 'POST':
         session['query'] = request.form
         query = generate_query(user) + '-' + str(len(request.form))
-        # return redirect(url_for('result', q=process_form(request.form)))
         return redirect(url_for('result', q=query))
     skillstreet_filters = get_skillstreet_filters()
     datastar_filters = get_datastar_filters()

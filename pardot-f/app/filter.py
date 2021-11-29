@@ -21,6 +21,9 @@ def get_datastar_filters():
     engine.dispose()
     salary = df_jh['SalaryRange'].dropna().unique().tolist()
     salary.sort(key=lambda x: int(x.split(',')[0]))
+    df_app.fillna('-', inplace=True)
+    df_alm.fillna('-', inplace=True)
+    df_jh.fillna('-', inplace=True)
     return {
         'age': df_app['Age'].unique().tolist(),
         'sponsor': sorted(df_alm['Sponsor'].unique().tolist()),

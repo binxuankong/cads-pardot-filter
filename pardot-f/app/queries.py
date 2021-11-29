@@ -22,7 +22,7 @@ where_query_map = {
     'interview': """sa."Interviewed" = 'Y'""",
     'interview_recommend': """sa."Remarks" ilike 'recommend%%'""",
     'bumiputera': """a."Race" = 'Malay'""",
-    'currently_employed': """jh."EmploymentStatus" = 'True'""",
+    'currently_employed': """jh."EmploymentStatus" = 'true'""",
 }
 
 skill_filter_query = 'select id, "name" from skill where status order by "name"'
@@ -40,7 +40,7 @@ datastar_applicant_filter_query = 'select distinct a."Age" from "Applicants" a o
 
 datastar_alumni_filter_query = 'select distinct "Sponsor", "Cohort", "Year", "DSStatus", "Gender" from "DataStarAlumni"'
 
-datastar_job_filter_query = 'select distinct "CompanyName", "SalaryRange" from "JobHistory" where "CurrentJob"'
+datastar_job_filter_query = """select distinct "CompanyName", "SalaryRange" from "JobHistory" where "CurrentJob" = 'true'"""
 
 pardot_query = """
 select id, first_name, last_name, email, company, job_title, opted_out, updated_at
