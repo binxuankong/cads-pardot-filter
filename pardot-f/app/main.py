@@ -7,8 +7,10 @@ from app.config.settings import settings
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
+base_route = '/pardot-filter'
 
 @app.route('/', methods=['GET', 'POST'])
+@app.route(base_route, methods=['GET', 'POST'])
 def index():
     user = session.get('code', None)
     if request.method == 'POST':
@@ -19,7 +21,7 @@ def index():
     datastar_filters = get_datastar_filters()
     return generate_page('index.html', user=user, s_filters=skillstreet_filters, d_filters=datastar_filters)
 
-@app.route('/login')
+@app.route(base_route + '/login')
 def login():
     auth_url = settings['AUTH_URL']
     client_id = settings['CLIENT_ID']
@@ -27,12 +29,12 @@ def login():
     auth_url += f'response_type=code&client_id={client_id}&redirect_uri={redirect_uri}'
     return redirect(auth_url)
 
-@app.route('/logout')
+@app.route(base_route + '/logout')
 def logout():
     session.clear()
     return redirect(url_for('index'))
 
-@app.route('/callback')
+@app.route(base_route + '/callback')
 def callback():
     code = request.args.get('code', None)
     if code is None:
@@ -41,7 +43,7 @@ def callback():
     session['code'] = code
     return redirect(url_for('update'))
 
-@app.route('/update')
+@app.route(base_route + '/update')
 def update():
     code = session.get('code', None)
     if code is None:
@@ -61,7 +63,7 @@ def update():
         print('Error in updating Pardot DB:', e)
         return redirect(url_for('index'))
 
-@app.route('/result')
+@app.route(base_route + '/result')
 def result():
     user = session.get('code', None)
     query = request.args.get('q', None)
@@ -71,7 +73,7 @@ def result():
     data = filter_result(form).to_dict('records')
     return generate_page('result.html', data=data, query=query, user=user)
 
-@app.route('/download')
+@app.route(base_route + '/download')
 def download():
     user = session.get('code', None)
     query = request.args.get('q', None)
