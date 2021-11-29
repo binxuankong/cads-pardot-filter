@@ -6,7 +6,7 @@ from app.filter import get_skillstreet_filters, get_datastar_filters, filter_res
 from app.config.settings import settings
 
 app = Flask(__name__)
-app.secret_key = os.urandom(24)
+app.secret_key = b'\xf8`\xcc\xd7v@\xe5\xce\xcc4fQ\xe6h\xba\xd7\xca\x9d\xf6\xfb\x7f\x9c\xe6\xec'
 base_route = '/pardot-filter'
 
 @app.route('/', methods=['GET', 'POST'])
