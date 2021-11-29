@@ -11,7 +11,9 @@
 {% block content %}
 <h3>{% block title %}Result - {{ data|length }} prospects found{% endblock %}</h3>
 <div class="container">
-<a type="button" class="btn btn-primary" href="{{ url_for('download', q=query) }}">Download</a>
+<a type="button" class="btn btn-primary" href="{{ url_for('download', q=query, type='all') }}">Export All</a>
+<a type="button" class="btn btn-primary" href="{{ url_for('download', q=query, type='in') }}">Export Opted In</a>
+<a type="button" class="btn btn-primary" href="{{ url_for('download', q=query, type='out') }}">Export Opted Out</a>
 <table id="table"
     data-toggle="table"
     data-filter-control="true"

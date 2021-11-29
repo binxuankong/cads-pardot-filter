@@ -75,7 +75,11 @@ def result():
     form = session.get('query', None)
     if user is None or query is None or form is None:
         return redirect(url_for('index'))
-    data = filter_result(form).to_dict('records')
+    data = filter_result(form)
+    if data is None:
+        data = []
+    else:
+        data = data.to_dict('records')
     return generate_page('result.html', data=data, query=query, user=user)
 
 @app.route('/download')
@@ -83,12 +87,22 @@ def result():
 def download():
     user = session.get('code', None)
     query = request.args.get('q', None)
+    type_ = request.args.get('type', None)
     form = session.get('query', None)
     if user is None or query is None or form is None:
+        return redirect('/')
+    if user is None or query is None or form is None or type_ is None:
         return redirect(url_for('index'))
     df = filter_result(form)
+    if df is None:
+        return redirect('/')
     filename = query + '.csv'
+    if type_ == 'in':
+        df = df.loc[~df['opted_out']]
+    if type_ == 'out':
+        df = df.loc[df['opted_out']]
+    filename = query + '-' + type_ + '.csv'
     return Response(df.to_csv(index=False),
                     mimetype='text/csv',
                     headers={'Content-disposition': 'attachment; filename=' + filename}
-    )
+                )

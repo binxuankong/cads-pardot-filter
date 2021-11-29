@@ -82,18 +82,24 @@ def filter_result(form):
     # Country filter
     q, t = process_where_in(form, 'ss', 'jsp', 'country_id')
     if q is not None and t is not None:
+        is_info = True
         ss_where_query += q
         ss_params[t[0]] = t[1]
 
-    # Range filters
-    app_where_query += process_where_range(form, 'ds', 'a', 'Age')
+    # Datastar applicant range filters
+    query = process_where_range(form, 'ds', 'a', 'Age')
+    if len(query) > 0:
+        is_applicant = True
+        app_where_query += query
 
     # Where in filters
+    # Datastar alumni where in filters
     where_in = [('ds', 'dsa', 'Cohort'), ('ds', 'dsa', 'DSStatus'), ('ds', 'dsa', 'Gender'), ('ds', 'dsa', 'Sponsor'),
                 ('ds', 'dsa', 'Year')]
     for w in where_in:
         q, t = process_where_in(form, w[0], w[1], w[2])
         if q is not None and t is not None:
+            is_alumni = True
             alm_where_query += q
             alm_params[t[0]] = t[1]
 
