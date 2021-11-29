@@ -43,7 +43,7 @@ datastar_alumni_filter_query = 'select distinct "Sponsor", "Cohort", "Year", "DS
 datastar_job_filter_query = """select distinct "CompanyName", "SalaryRange" from "JobHistory" where "CurrentJob" = 'true'"""
 
 pardot_query = """
-select id, first_name, last_name, email, company, job_title, opted_out, updated_at
+select id, first_name, last_name, email, phone, company, job_title, opted_out, updated_at
 from "PardotProspect"
 """
 

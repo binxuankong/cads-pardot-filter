@@ -26,15 +26,16 @@
     class="table-responsive">
     <thead>
         <tr>
-            <!--special characters and spaces not allowed in data-field name-->
-            <th data-field="columnA" data-filter-control="input" data-sortable="true">ID</th>
-            <th data-field="columnB" data-filter-control="input" data-sortable="true">First Name</th>
-            <th data-field="columnC" data-filter-control="input" data-sortable="true">Last Name</th>
-            <th data-field="columnD" data-filter-control="input" data-sortable="true">Email</th>
-            <th data-field="columnE" data-filter-control="input" data-sortable="true">Company</th>
-            <th data-field="columnF" data-filter-control="input" data-sortable="true">Job Title</th>
-            <th data-field="columnG" data-filter-control="select" data-sortable="true">Opted Out</th>
-            <th data-field="columnH" data-filter-control="input" data-sortable="true">Last Updated</th>
+            <th data-field="state" data-checkbox="true"></th>
+            <th data-field="prospectId" data-filter-control="input" data-sortable="true">ID</th>
+            <th data-field="firstName" data-filter-control="input" data-sortable="true">First Name</th>
+            <th data-field="lastName" data-filter-control="input" data-sortable="true">Last Name</th>
+            <th data-field="email" data-filter-control="input" data-sortable="true">Email</th>
+            <th data-field="phone" data-filter-control="input" data-sortable="true">Phone</th>
+            <th data-field="company" data-filter-control="input" data-sortable="true">Company</th>
+            <th data-field="jobTitle" data-filter-control="input" data-sortable="true">Job Title</th>
+            <th data-field="optedOut" data-filter-control="select" data-sortable="true">Opted Out</th>
+            <th data-field="lastUpdated" data-filter-control="input" data-sortable="true">Last Updated</th>
         </tr>
     </thead>
     <tbody>
@@ -44,6 +45,7 @@
             <td>{{ row.first_name }}</td>
             <td>{{ row.last_name }}</td>
             <td>{{ row.email }}</td>
+            <td>{{ row.phone }}</td>
             <td>{{ row.company }}</td>
             <td>{{ row.job_title }}</td>
             <td>{{ row.opted_out }}</td>
