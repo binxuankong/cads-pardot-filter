@@ -2,7 +2,7 @@ div #loading {
     width: 64px;
     height: 64px;
     display: none;
-    background: url(/static/loader.gif) no-repeat;
+    background: url(/pardot-filter/static/loader.gif) no-repeat;
     cursor: wait;
 }
 
