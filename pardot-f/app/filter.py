@@ -20,7 +20,7 @@ def get_datastar_filters():
     df_jh = pd.read_sql_query(datastar_job_filter_query, engine)
     engine.dispose()
     salary = df_jh['SalaryRange'].dropna().unique().tolist()
-    salary.sort(key=lambda x: int(x.split(',')[0]))
+    salary.sort(key=lambda x: sort_salary(x))
     df_app.fillna('-', inplace=True)
     df_alm.fillna('-', inplace=True)
     df_jh.fillna('-', inplace=True)
@@ -184,3 +184,13 @@ def process_form(form):
     if len(countries) > 0:
         filter += 'country_(' + countries.strip('&') + ')'
     return filter.strip('&')
+
+def sort_salary(s):
+    s = s.split(',')[0]
+    if s.isdigit():
+        return int(s)
+    else:
+        s = s.split('-')[0]
+        if s.isdigit():
+            return int(s)
+    return 0
